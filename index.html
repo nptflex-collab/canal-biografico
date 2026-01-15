@@ -3,32 +3,511 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nossa História de Providência</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Nossa História de Providência - Canal Biográfico</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <style>
-      body {
-        font-family: 'Lato', sans-serif;
+      /* Reset Básico e Estilos Globais */
+      :root {
+        --color-bg-main: #f8fafc;
+        --color-bg-accent: #f1f5f9;
+        --color-bg-dark: #1e293b;
+        --color-bg-white: #ffffff;
+        
+        --color-text-body: #334155;
+        --color-text-muted: #475569;
+        --color-text-light: #cbd5e1;
+        --color-text-subtle: #94a3b8;
+        --color-text-white: #ffffff;
+        
+        --color-primary-darker: #1e3a8a;
+        --color-primary-dark: #1e40af;
+        --color-primary-base: #1d4ed8;
+        
+        --color-accent-red: #dc2626;
+        --color-accent-red-hover: #b91c1c;
+
+        --font-serif: 'Playfair Display', serif;
+        --font-sans: 'Lato', sans-serif;
       }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        color: var(--color-text-body);
+        background-color: var(--color-bg-main);
+        line-height: 1.6;
+      }
+
       h1, h2, h3, h4, h5, h6 {
-        font-family: 'Playfair Display', serif;
+        font-family: var(--font-serif);
+        color: var(--color-primary-darker);
+      }
+
+      .container {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+      
+      /* Utilitários e Layout */
+      .section-padding { padding-top: 4rem; padding-bottom: 4rem; }
+      .text-center { text-align: center; }
+      .max-w-2xl { max-width: 42rem; }
+      .max-w-3xl { max-width: 48rem; }
+      .max-w-4xl { max-width: 56rem; }
+      .max-w-5xl { max-width: 64rem; }
+      .mx-auto { margin-left: auto; margin-right: auto; }
+      
+      .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+      .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+      .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+
+      /* Componentes Específicos */
+      .hero-section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--color-bg-accent);
+        padding: 5rem 1rem;
+      }
+      .hero-section h1 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .hero-section p {
+        margin-top: 1.5rem;
+        font-size: 1.125rem;
+        color: var(--color-text-muted);
+        line-height: 1.75;
+      }
+
+      .video-container {
+        margin-top: 3rem;
+        width: 100%;
+        max-width: 56rem;
+        border-radius: 0.5rem;
+        overflow: hidden;
+      }
+      .aspect-ratio-box {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        background-color: var(--color-bg-dark);
+      }
+      .aspect-ratio-box iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .section-title h2 {
+        font-size: 2.25rem;
+        font-weight: 700;
+      }
+      .section-title p {
+        margin-top: 1rem;
+        font-size: 1.125rem;
+        color: var(--color-text-muted);
+      }
+
+      .parallel-card {
+        background-color: var(--color-bg-white);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease;
+      }
+      .parallel-card:hover {
+        transform: scale(1.05);
+      }
+      .parallel-card h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-primary-dark);
+        margin-bottom: 1rem;
+      }
+      .parallel-card blockquote {
+        border-left: 4px solid var(--color-primary-base);
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+        font-style: italic;
+        color: var(--color-text-muted);
+      }
+      .parallel-card cite {
+        display: block;
+        text-align: right;
+        font-size: 0.875rem;
+        color: var(--color-text-subtle);
+        margin-top: 0.5rem;
+      }
+      
+      .testimony-section .content-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .testimony-section .image-container {
+        width: 100%;
+        max-width: 350px;
+        margin-bottom: 2rem;
+      }
+      .testimony-section img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 0.5rem;
+      }
+      .testimony-section .text-container h2 {
+        margin-bottom: 1.5rem;
+      }
+      .testimony-section .text-container p {
+        margin-bottom: 1rem;
+        font-size: 1.125rem;
+        line-height: 1.75;
+      }
+
+      .mission-section {
+        background-color: var(--color-bg-accent);
+      }
+      .mission-section p {
+        font-size: 1.25rem;
+        line-height: 1.75;
+        color: var(--color-text-muted);
+        margin-top: 1.5rem;
+      }
+
+      .cta-button {
+        display: inline-block;
+        margin-top: 2.5rem;
+        padding: 1rem 2rem;
+        background-color: var(--color-accent-red);
+        color: var(--color-text-white);
+        font-weight: 700;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-size: 1.125rem;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      .cta-button:hover {
+        background-color: var(--color-accent-red-hover);
+        transform: scale(1.05);
+      }
+
+      .contribution-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+      .contribution-card {
+        background-color: var(--color-bg-white);
+        padding: 2rem;
+        border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .contribution-card svg {
+        width: 3rem;
+        height: 3rem;
+        color: var(--color-primary-dark);
+        margin-bottom: 1rem;
+      }
+      .contribution-card h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+      }
+      .contribution-card p {
+        color: var(--color-text-muted);
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+      }
+      .contribution-card .btn {
+        margin-top: auto;
+        display: inline-block;
+        width: 100%;
+        padding: 0.75rem 1.5rem;
+        font-weight: 700;
+        border-radius: 0.375rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+      .btn-outline {
+        border: 2px solid var(--color-primary-dark);
+        color: var(--color-primary-dark);
+      }
+      .btn-outline:hover {
+        background-color: var(--color-primary-dark);
+        color: var(--color-text-white);
+      }
+      .btn-solid {
+        background-color: var(--color-primary-dark);
+        color: var(--color-text-white);
+      }
+      .btn-solid:hover {
+        background-color: var(--color-primary-darker);
+      }
+
+
+      .elegant-divider {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 3rem 0;
+      }
+      .elegant-divider .line {
+        width: 6rem;
+        height: 1px;
+        background-color: rgba(29, 78, 216, 0.3);
+      }
+      .elegant-divider svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: var(--color-primary-dark);
+        margin: 0 1rem;
+      }
+
+      .site-footer {
+        background-color: var(--color-bg-dark);
+        color: var(--color-text-light);
+        padding: 2rem 0;
+        font-size: 0.875rem;
+      }
+      .site-footer a {
+        display: inline-flex;
+        align-items: center;
+        font-size: 1.125rem;
+        color: var(--color-text-white);
+        text-decoration: none;
+        margin-bottom: 1rem;
+        transition: color 0.3s ease;
+      }
+      .site-footer a:hover {
+        color: var(--color-accent-red);
+      }
+      .site-footer svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 0.5rem;
+      }
+      .site-footer p {
+        margin-top: 0.5rem;
+        color: var(--color-text-subtle);
+      }
+
+      /* Estilos Responsivos (Mobile First) */
+      @media (min-width: 768px) {
+        .section-padding { padding-top: 6rem; padding-bottom: 6rem; }
+        
+        .hero-section h1 { font-size: 3.75rem; }
+        .hero-section p { font-size: 1.25rem; }
+        
+        .section-title h2 { font-size: 3rem; }
+        
+        .testimony-section .content-grid {
+            flex-direction: row;
+            gap: 3rem;
+        }
+        .testimony-section .image-container {
+            width: 33.333%;
+            margin-bottom: 0;
+        }
+        .testimony-section .text-container {
+            width: 66.667%;
+        }
+
+        .contribution-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .contribution-card .btn {
+            width: auto;
+        }
       }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
-  }
-}
-</script>
 </head>
-<body class="bg-slate-50">
-    <div id="root"></div>
+<body>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section text-center">
+            <div class="max-w-3xl w-full">
+                <h1>Escrito pelas Mãos do Criador</h1>
+                <p>Assim como Isaque e Rebeca foram unidos por um propósito divino, nossas vidas foram entrelaçadas pela providência de um Deus que cuida dos detalhes.</p>
+            </div>
+            <div class="video-container shadow-2xl">
+                <div class="aspect-ratio-box">
+                    <iframe 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                        title="Vídeo de Destaque do YouTube" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Biblical Parallel Section -->
+        <section class="section-padding" style="background-color: var(--color-bg-accent);">
+            <div class="container max-w-5xl">
+                <div class="section-title text-center" style="margin-bottom: 3rem;">
+                    <h2>O Paralelo Bíblico</h2>
+                    <p>Nossa jornada ecoa os passos de fé e providência vistos na união de Isaque e Rebeca.</p>
+                </div>
+                <div class="grid">
+                    <div class="parallel-card shadow-lg">
+                        <h3>A Oração de Busca</h3>
+                        <blockquote>
+                            <p>"Ó Senhor, Deus do meu senhor Abraão, dá-me neste dia bom êxito..."</p>
+                            <cite>- Gênesis 24</cite>
+                        </blockquote>
+                        <p>Em nossos corações, havia uma oração semelhante: a busca por alguém que compartilhasse não apenas a vida, mas um propósito em Deus. Confiamos que Ele nos guiaria.</p>
+                    </div>
+                    <div class="parallel-card shadow-lg">
+                        <h3>O Encontro Guiado</h3>
+                        <blockquote>
+                            <p>"...ela respondeu: 'Bebe, meu senhor' (...) E deu de beber também aos camelos."</p>
+                            <cite>- Gênesis 24</cite>
+                        </blockquote>
+                        <p>O nosso encontro foi marcado por sinais claros da bondade e direção de Deus. Em gestos e palavras, reconhecemos a resposta às nossas orações, uma confirmação de que estávamos no caminho certo.</p>
+                    </div>
+                    <div class="parallel-card shadow-lg">
+                        <h3>A Confirmação do Propósito</h3>
+                        <blockquote>
+                            <p>"E Isaque amou-a; e Isaque consolou-se depois da morte de sua mãe."</p>
+                            <cite>- Gênesis 24</cite>
+                        </blockquote>
+                        <p>A nossa união trouxe um profundo senso de paz e propósito. Entendemos que fomos preparados um para o outro, para juntos servirmos a Deus e sermos um testemunho do Seu amor fiel.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimony Section -->
+        <section class="testimony-section section-padding">
+            <div class="container max-w-4xl">
+                <div class="content-grid">
+                    <div class="image-container">
+                        <img src="https://picsum.photos/seed/couple/600/800" alt="Nosso Retrato" class="shadow-xl" />
+                    </div>
+                    <div class="text-container">
+                        <h2>Nossa Jornada: O Testemunho</h2>
+                        <p>Nossa história não é um conto de acasos, mas uma tapeçaria tecida com fios de oração, fé e intervenção divina. Cada passo, cada desencontro que parecia um fim, era, na verdade, Deus realinhando nossos caminhos para o encontro perfeito que Ele havia planejado.</p>
+                        <p>Vimos Sua mão em cada detalhe: nas conversas que confirmavam valores, nos desafios que fortaleciam nossa fé e na paz que inundava nossos corações, assegurando-nos de que este amor vinha do céu. Nosso canal é o relato de como Ele nos encontrou, nos moldou e nos uniu para um propósito maior que nós mesmos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Story Section -->
+        <section class="section-padding">
+            <div class="container max-w-4xl">
+                <div class="section-title text-center" style="margin-bottom: 3rem;">
+                    <h2>De Geração em Geração: Nossa História em Vídeo</h2>
+                    <p>A história de Isaque e Rebeca foi contada e recontada, inspirando fé através dos séculos. Hoje, usamos a tecnologia que Deus nos deu para compartilhar nosso testemunho. Cada vídeo é um capítulo da nossa jornada, criado para que a fidelidade de Deus também inspire a sua história.</p>
+                </div>
+                <div class="video-container shadow-2xl">
+                    <div class="aspect-ratio-box">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Nossa História em Vídeo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="elegant-divider" aria-hidden="true">
+                <div class="line"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2.143 2.143 0 01-3.028 0l-1.4-1.4a2.143 2.143 0 00-3.028 0l-.7.7a2.143 2.143 0 01-3.028 0l-1.4-1.4a2.143 2.143 0 00-3.028 0L3.57 13.57m15.858 1.858a2.143 2.143 0 010-3.028l-1.4-1.4a2.143 2.143 0 00-3.028 0l-.7.7a2.143 2.143 0 01-3.028 0l-1.4-1.4a2.143 2.143 0 00-3.028 0L3.57 10.5m15.858 1.858L18 13.858m-2.142-2.142L12 8.142"/></svg>
+                <div class="line"></div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="mission-section section-padding">
+            <div class="container max-w-3xl text-center">
+                <h2>A Missão do Canal</h2>
+                <p>Criar este canal é mais do que um desejo de compartilhar nossas memórias. É uma missão. Nosso objetivo é glorificar a Deus, mostrando Sua fidelidade e soberania na vida de dois de Seus filhos. Desejamos que nosso testemunho em vídeo encoraje outros casais e solteiros a confiarem plenamente no tempo, no cuidado e no plano perfeito de Deus para suas vidas.</p>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section-padding">
+            <div class="container max-w-2xl text-center">
+                <h2>Acompanhe Nossa Jornada</h2>
+                <p style="margin-top: 1rem; font-size: 1.125rem;">Não perca nenhum vídeo! Inscreva-se para ser notificado sobre novos testemunhos e reflexões que postamos em nosso canal.</p>
+                <a href="https://www.youtube.com/@AntonioAriasSilvaOliveira?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="cta-button shadow-lg">
+                    Inscreva-se no nosso Canal Biográfico
+                </a>
+            </div>
+             <div class="elegant-divider" aria-hidden="true">
+                <div class="line"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2.143 2.143 0 01-3.028 0l-1.4-1.4a2.143 2.143 0 00-3.028 0l-.7.7a2.143 2.143 0 01-3.028 0l-1.4-1.4a2.143 2.143 0 00-3.028 0L3.57 13.57m15.858 1.858a2.143 2.143 0 010-3.028l-1.4-1.4a2.143 2.143 0 00-3.028 0l-.7.7a2.143 2.143 0 01-3.028 0l-1.4-1.4a2.143 2.143 0 00-3.028 0L3.57 10.5m15.858 1.858L18 13.858m-2.142-2.142L12 8.142"/></svg>
+                <div class="line"></div>
+            </div>
+        </section>
+
+        <!-- Contribution Section -->
+        <section class="section-padding" style="background-color: var(--color-bg-accent);">
+            <div class="container max-w-4xl">
+                <div class="section-title text-center">
+                    <h2>Seja um Pilar Desta Obra</h2>
+                    <p>Este canal é um ministério, e você pode fazer parte dele. Sua ajuda é fundamental para que esta mensagem de fé e providência alcance mais corações.</p>
+                </div>
+                <div class="contribution-grid">
+                    <div class="contribution-card shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                        <h3>Apoio Criativo</h3>
+                        <p>Você tem dons na área de edição de vídeo, roteiro, ou design de miniaturas? Sua habilidade pode ser um presente valioso para a excelência do nosso conteúdo.</p>
+                        <a href="mailto:contato@nossahistoria.com?subject=Apoio Criativo para o Canal" class="btn btn-outline">Oferecer Ajuda</a>
+                    </div>
+                    <div class="contribution-card shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+                        <h3>Apoio Financeiro</h3>
+                        <p>A forma mais direta de nos apoiar é fortalecendo nossa comunidade. Ao se inscrever, você nos ajuda a levar esta mensagem de esperança ainda mais longe.</p>
+                        <a href="https://www.youtube.com/@AntonioAriasSilvaOliveira?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="btn btn-solid">Inscreva-se no nosso Canal Biográfico</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer text-center">
+        <div class="container">
+            <div>
+                <a href="https://www.youtube.com/@AntonioAriasSilvaOliveira" target="_blank" rel="noopener noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path></svg>
+                    Nosso Canal no YouTube
+                </a>
+            </div>
+            <p>&copy; <span id="current-year">2024</span> | Nossa História de Providência. Todos os direitos reservados.</p>
+            <p>Um testemunho do amor e da fidelidade de Deus.</p>
+        </div>
+    </footer>
+
+    <script>
+      // Simples script para atualizar o ano no rodapé dinamicamente.
+      document.addEventListener('DOMContentLoaded', function() {
+        const yearElement = document.getElementById('current-year');
+        if (yearElement) {
+          yearElement.textContent = new Date().getFullYear();
+        }
+      });
+    </script>
 </body>
 </html>
